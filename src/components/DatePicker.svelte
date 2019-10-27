@@ -70,7 +70,7 @@
           <button on:click={next}>Next</button>
         </div>
       </div>
-      <Calender {month} {year} />
+      <Calender {month} {year} on:datechange />
     </div>
   {/if}
 </div>

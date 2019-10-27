@@ -1,9 +1,21 @@
 <script>
   import { getDateRows } from "../utils/date-time.js";
+  import { uuid } from "../utils/uuid.js";
+  import { createEventDispatcher } from "svelte";
+
+  const dispatch = createEventDispatcher();
 
   export let month;
   export let year;
   const weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+
+  const onChange = date => {
+    dispatch("datechange", {
+      month,
+      year,
+      date
+    });
+  };
 </script>
 
 <style>
@@ -43,8 +55,13 @@
     {/each}
   </div>
   <div class="row">
-    {#each getDateRows(month, year) as cell}
-      <div class:cell={true} class:highlight={cell}>{cell || ''}</div>
+    {#each getDateRows(month, year) as cell (uuid())}
+      <div
+        on:click={onChange.bind(this, cell)}
+        class:cell={true}
+        class:highlight={cell}>
+        {cell || ''}
+      </div>
     {/each}
   </div>
 </div>
