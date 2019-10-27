@@ -40,5 +40,7 @@ export const getDateRows = (monthIndex, year) => {
     const index = startIndex + i;
     rows[index] = i + 1;
   });
-  return rows;
+  const filled = rows.map(i => (Array.isArray(i) ? undefined : i));
+
+  return filled[35] ? filled : filled.slice(0, -7);
 };

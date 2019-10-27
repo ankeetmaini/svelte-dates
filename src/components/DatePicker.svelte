@@ -3,7 +3,7 @@
   import { getMonthName } from "../utils/date-time.js";
 
   // state
-  let month = 0;
+  let month = 5;
   let year = 2019;
   let showDatePicker = true;
 
@@ -39,14 +39,21 @@
     position: absolute;
     top: 40px;
     left: 0px;
-    border: 1px solid tomato;
+    border: 1px solid green;
     display: inline-block;
   }
 
   .month-name {
     display: flex;
     justify-content: space-around;
+    align-items: center;
     margin: 6px 0;
+  }
+
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 </style>
 
@@ -55,9 +62,13 @@
   {#if showDatePicker}
     <div class="box">
       <div class="month-name">
-        <button on:click={prev}>Prev</button>
-        <div>{getMonthName(month)} {year}</div>
-        <button on:click={next}>Next</button>
+        <div class="center">
+          <button on:click={prev}>Prev</button>
+        </div>
+        <div class="center">{getMonthName(month)} {year}</div>
+        <div class="center">
+          <button on:click={next}>Next</button>
+        </div>
       </div>
       <Calender {month} {year} />
     </div>

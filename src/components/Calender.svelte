@@ -1,16 +1,16 @@
 <script>
   import { getDateRows } from "../utils/date-time.js";
 
-  export const month;
-  export const year;
+  export let month;
+  export let year;
   const weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 </script>
 
 <style>
   .container {
     margin-top: 8px;
-    padding: 14px;
-    width: 300px;
+    padding: 10px;
+    width: 350px;
   }
   .row {
     display: flex;
@@ -23,6 +23,16 @@
     width: 40px;
     height: 20px;
     text-align: center;
+    padding: 4px;
+  }
+  .highlight {
+    transition: transform 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+  .highlight:hover {
+    background: green;
+    color: #fff;
+    cursor: pointer;
+    transform: scale(1.3);
   }
 </style>
 
@@ -34,7 +44,7 @@
   </div>
   <div class="row">
     {#each getDateRows(month, year) as cell}
-      <div class="cell">{cell || ' '}</div>
+      <div class:cell={true} class:highlight={cell}>{cell || ''}</div>
     {/each}
   </div>
 </div>
