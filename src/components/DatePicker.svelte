@@ -1,12 +1,11 @@
 <script>
   import Calender from "./Calender.svelte";
+  import { getMonthName } from "../utils/date-time.js";
   import { date } from "../stores/date-store.js";
 
   // state
   let showDatePicker = true;
-  let state;
 
-  const unsub = date.subscribe(v => (state = v));
   // handlers
   const onFocus = () => {
     showDatePicker = true;
@@ -14,10 +13,15 @@
 </script>
 
 <style>
+  .relative {
+    position: relative;
+  }
   .box {
+    position: absolute;
+    top: 40px;
+    left: 0px;
     border: 1px solid tomato;
-    height: 300px;
-    width: 300px;
+    display: inline-block;
   }
 
   .month-name {
@@ -26,10 +30,12 @@
   }
 </style>
 
-<input type="text" on:focus={onFocus} />
-{#if showDatePicker}
-  <div class="box">
-    <div class="month-name">{state.month} {state.year}</div>
-    <Calender />
-  </div>
-{/if}
+<div class="relative">
+  <input type="text" on:focus={onFocus} />
+  {#if showDatePicker}
+    <div class="box">
+      <div class="month-name">{getMonthName($date.month)} {$date.year}</div>
+      <Calender />
+    </div>
+  {/if}
+</div>
