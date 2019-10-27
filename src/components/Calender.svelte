@@ -1,8 +1,9 @@
 <script>
-  import { date } from "../stores/date-store.js";
   import { getDateRows } from "../utils/date-time.js";
+
+  export const month;
+  export const year;
   const weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-  const cells = getDateRows($date.month, $date.year);
 </script>
 
 <style>
@@ -32,7 +33,7 @@
     {/each}
   </div>
   <div class="row">
-    {#each cells as cell}
+    {#each getDateRows(month, year) as cell}
       <div class="cell">{cell || ' '}</div>
     {/each}
   </div>

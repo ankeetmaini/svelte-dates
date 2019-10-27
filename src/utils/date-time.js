@@ -21,20 +21,6 @@ const getMonthDays = (index, year) => {
   return index !== 1 ? monthDays[index] : isLeapYear(year) ? 29 : 28;
 };
 
-// const chunkify = (arr, count) => {
-//   const result = [];
-//   let intermediate = [];
-
-//   arr.forEach(i => {
-//     if (intermediate.length === count) {
-//       result.push(intermediate);
-//       intermediate = [];
-//     }
-//     intermediate.push(i);
-//   });
-//   return result;
-// };
-
 export const getMonthStats = (monthIndex, year) => {
   const today = new Date(year, monthIndex, 1);
   const index = today.getMonth();
@@ -44,7 +30,7 @@ export const getMonthStats = (monthIndex, year) => {
   };
 };
 
-export const getMonthName = index => monthNames[index + 1];
+export const getMonthName = index => monthNames[index];
 
 export const getDateRows = (monthIndex, year) => {
   const { days } = getMonthStats(monthIndex, year);
