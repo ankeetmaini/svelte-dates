@@ -1,28 +1,40 @@
 <script>
   import { getDateRows } from "../utils/date-time.js";
   import { uuid } from "../utils/uuid.js";
+  import { noop } from "../utils/noop.js";
   import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
 
+  // props
+  export let date;
   export let month;
   export let year;
+  export let isAllowed;
+
   const weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+  let cells;
 
   const onChange = date => {
-    dispatch("datechange", {
-      month,
-      year,
-      date
-    });
+    dispatch("datechange", new Date(year, month, date));
   };
+
+  const allow = (year, month, date) => {
+    if (!date) return true;
+    return isAllowed(new Date(year, month, date));
+  };
+
+  $: cells = getDateRows(month, year).map(c => ({
+    value: c,
+    allowed: allow(year, month, c)
+  }));
 </script>
 
 <style>
   .container {
     margin-top: 8px;
-    padding: 10px;
-    width: 350px;
+    padding: 6px;
+    width: 370px;
   }
   .row {
     display: flex;
@@ -36,10 +48,23 @@
     height: 20px;
     text-align: center;
     padding: 4px;
+    margin: 1px;
   }
+
+  .selected {
+    background: #84e791;
+  }
+
   .highlight {
     transition: transform 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
+
+  .disabled {
+    background: #efefef;
+    cursor: not-allowed;
+    color: #bfbfbf;
+  }
+
   .highlight:hover {
     background: green;
     color: #fff;
@@ -54,14 +79,18 @@
       <div class="cell">{day}</div>
     {/each}
   </div>
+
   <div class="row">
-    {#each getDateRows(month, year) as cell (uuid())}
+    {#each cells as { allowed, value } (uuid())}
       <div
-        on:click={onChange.bind(this, cell)}
+        on:click={allowed && value ? onChange.bind(this, value) : noop}
         class:cell={true}
-        class:highlight={cell}>
-        {cell || ''}
+        class:highlight={allowed && value}
+        class:disabled={!allowed}
+        class:selected={new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime() === new Date(year, month, value).getTime()}>
+        {value || ''}
       </div>
     {/each}
   </div>
+
 </div>

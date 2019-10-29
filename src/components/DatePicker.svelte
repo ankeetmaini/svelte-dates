@@ -2,9 +2,19 @@
   import Calender from "./Calender.svelte";
   import { getMonthName } from "../utils/date-time.js";
 
+  // props
+  export let isAllowed = () => true;
+  export let selected = new Date();
   // state
-  let month = 5;
-  let year = 2019;
+  let date, month, year;
+
+  // so that these change with props
+  $: {
+    date = selected.getDate();
+    month = selected.getMonth();
+    year = selected.getFullYear();
+  }
+
   let showDatePicker = true;
 
   // handlers
@@ -70,7 +80,7 @@
           <button on:click={next}>Next</button>
         </div>
       </div>
-      <Calender {month} {year} on:datechange />
+      <Calender {month} {year} date={selected} {isAllowed} on:datechange />
     </div>
   {/if}
 </div>
