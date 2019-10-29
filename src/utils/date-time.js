@@ -21,7 +21,7 @@ const getMonthDays = (index, year) => {
   return index !== 1 ? monthDays[index] : isLeapYear(year) ? 29 : 28;
 };
 
-export const getMonthStats = (monthIndex, year) => {
+const getMonthStats = (monthIndex, year) => {
   const today = new Date(year, monthIndex, 1);
   const index = today.getMonth();
   return {

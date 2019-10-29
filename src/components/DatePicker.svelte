@@ -1,12 +1,16 @@
 <script>
+  import { createEventDispatcher } from "svelte";
   import Calender from "./Calender.svelte";
   import { getMonthName } from "../utils/date-time.js";
+
+  const dispatch = createEventDispatcher();
 
   // props
   export let isAllowed = () => true;
   export let selected = new Date();
+
   // state
-  let date, month, year;
+  let date, month, year, showDatePicker;
 
   // so that these change with props
   $: {
@@ -14,8 +18,6 @@
     month = selected.getMonth();
     year = selected.getFullYear();
   }
-
-  let showDatePicker = true;
 
   // handlers
   const onFocus = () => {
@@ -38,6 +40,11 @@
       return;
     }
     month -= 1;
+  };
+
+  const onDateChange = d => {
+    showDatePicker = false;
+    dispatch("datechange", d.detail);
   };
 </script>
 
@@ -68,7 +75,7 @@
 </style>
 
 <div class="relative">
-  <input type="text" on:focus={onFocus} />
+  <input type="text" on:focus={onFocus} value={selected.toDateString()} />
   {#if showDatePicker}
     <div class="box">
       <div class="month-name">
@@ -80,7 +87,12 @@
           <button on:click={next}>Next</button>
         </div>
       </div>
-      <Calender {month} {year} date={selected} {isAllowed} on:datechange />
+      <Calender
+        {month}
+        {year}
+        date={selected}
+        {isAllowed}
+        on:datechange={onDateChange} />
     </div>
   {/if}
 </div>

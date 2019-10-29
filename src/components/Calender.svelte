@@ -12,9 +12,11 @@
   export let year;
   export let isAllowed;
 
+  // local vars to help in render
   const weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
   let cells;
 
+  // function helpers
   const onChange = date => {
     dispatch("datechange", new Date(year, month, date));
   };
@@ -66,10 +68,14 @@
   }
 
   .highlight:hover {
-    background: green;
+    background: rgb(238, 176, 60);
     color: #fff;
     cursor: pointer;
     transform: scale(1.3);
+  }
+
+  .selected.highlight:hover {
+    background: green;
   }
 </style>
 
@@ -92,5 +98,4 @@
       </div>
     {/each}
   </div>
-
 </div>
